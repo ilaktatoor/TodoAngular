@@ -2,6 +2,7 @@ import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { Task } from '../../models/task.model';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -44,4 +45,19 @@ export class HomeComponent {
   deleteTask(index: number){
     this.tasks.update((tasks)=> tasks.filter((task, position)=> position !== index))
   }  
+
+  updateTask(index: number){
+    this.tasks.update((tasks)=>{
+      return tasks.map ((task, position)=>{
+        if (position === index){
+          return {
+            ...task,
+            compleated: !task.compleated
+          }
+        }
+        return task;
+      })
+    })
+
+  }
 }
